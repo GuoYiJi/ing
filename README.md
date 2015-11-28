@@ -1,2 +1,2 @@
-# ing
-学习demo
+## git管理
+[/GuoYiJi/ing/blob/master/git.md]
