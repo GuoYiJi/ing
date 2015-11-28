@@ -1,2 +1,1 @@
-### git管理
-[/git.md](git管理)
+### [git管理](/git.md)
