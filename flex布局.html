@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>flex布局</title>
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	.box-flex {
+		display: flex;
+		display: -webkit-flex;
+		min-height: 100vh;
+		flex-direction: column;
+	}
+	header, footer {
+		flex: 1;
+		background-color: #666;
+	}
+	.box-body {
+		display: flex;
+		flex: 1;
+	}
+	.box-content {
+		flex: 1;
+		background-color: #d6d6d6;
+	}
+	.box-nav, .box-ads {
+		flex: 0 0 12em;
+	}
+	.box-nav {
+		order: -1;
+	}
+	</style>
+</head>
+<body>
+	<div class="box-flex">
+		<header></header>
+		<div class="box-body">
+			<div class="box-content"></div>
+			<div class="box-nav"></div>
+			<div class="box-ads"></div>
+		</div>
+		<footer></footer>
+	</div>
+</body>
+</html>
