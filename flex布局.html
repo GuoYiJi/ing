@@ -4,45 +4,132 @@
 	<meta charset="UTF-8">
 	<title>flex布局</title>
 	<style>
+	section {
+		margin: 10px 0;
+	}
+	section h3 {
+		padding: 10px 0;
+	}
+	body {
+		padding: 10px 20px;
+		font: 14px/1.5 "微软雅黑";
+	}
 	* {
 		margin: 0;
 		padding: 0;
 	}
-	.box-flex {
+	.w300 {
+		width: 300px;
+	}
+	.w500 {
+		width: 500px;
+	}
+	.flex-box {
 		display: flex;
-		display: -webkit-flex;
-		min-height: 100vh;
+		border: 2px solid #000;
+	}
+	.flex-box div, .flex-box span {
+		width: 200px;
+		color: #fff;
+		font-size: 20px;
+		background-color: red;
+	}
+	.flex-box.row {
+		flex-direction: row;
+	}
+	.flex-box.row-reverse {
+		flex-direction: row-reverse;
+	}
+	.flex-box.column {
 		flex-direction: column;
 	}
-	header, footer {
-		flex: 1;
-		background-color: #666;
+	.flex-box.column-reverse {
+		flex-direction: column-reverse;
 	}
-	.box-body {
-		display: flex;
-		flex: 1;
+	.flex-box.nowrap {
+		flex-wrap: nowrap;
 	}
-	.box-content {
-		flex: 1;
-		background-color: #d6d6d6;
+	.flex-box.wrap {
+		flex-wrap: wrap;
 	}
-	.box-nav, .box-ads {
-		flex: 0 0 12em;
-	}
-	.box-nav {
-		order: -1;
+	.flex-box.wrap-reverse {
+		flex-wrap: wrap-reverse;
 	}
 	</style>
 </head>
 <body>
-	<div class="box-flex">
-		<header></header>
-		<div class="box-body">
-			<div class="box-content"></div>
-			<div class="box-nav"></div>
-			<div class="box-ads"></div>
+	<section>
+		<h3> flex </h3>
+		<div class="flex-box">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
 		</div>
-		<footer></footer>
-	</div>
+	</section>
+	<section>
+		<h3> flex.row(default) </h3>
+		<div class="flex-box row">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+	<section>
+		<h3> flex.row-reverse </h3>
+		<div class="flex-box row-reverse">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+	<section>
+		<h3> flex.column </h3>
+		<div class="flex-box column">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+	<section>
+		<h3> flex.column-reverse </h3>
+		<div class="flex-box column-reverse">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+	<section>
+		<h3> flex.nowrap（默认）：不换行。</h3>
+		<div class="flex-box nowrap">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+	<section>
+		<h3> flex.wrap 换行，第一行在上方。</h3>
+		<div class="flex-box wrap w500">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+	<section>
+		<h3> flex.wrap 换行，第一行在下方。</h3>
+		<div class="flex-box wrap-reverse w500">
+			<div>1</div>
+			<span>2</span>
+			<div>3</div>
+			<span>4</span>
+		</div>
+	</section>
+		
 </body>
 </html>
