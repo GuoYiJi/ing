@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>addEventListener</title>
+</head>
+<body>
+	<script type="text/javascript">
+	window.handleEvent = function (e){
+		console.log( e.type )	// click
+	}
+	this.addEventListener( 'click', this, false );
+	</script>
+</body>
+</html>
