@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>seaJs</title>
+	<script type="text/javascript" src="js/sea.js"></script>
+	<script>
+	// 引入模块
+	// 异步加载的
+	seajs.use('./js/module.js', function (ex){
+		ex.a();
+	})
+	</script>
+</head>
+<body>
+	
+</body>
+</html>
