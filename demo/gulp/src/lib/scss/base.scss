@@ -1,0 +1,7 @@
+@import "_a.scss";
+
+a {
+	display: none;
+	color: $color-primary;
+	background-image: url(#{$path-base}/1.jpg);
+}

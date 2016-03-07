@@ -1,0 +1,9 @@
+@import "./var/_a";
+$path-base: '__PATH__';
+h1 {
+	a {
+		display: none;
+		color: $color-primary;
+		background-color: url(#{$path-base}/1.jpg);
+	}
+}
