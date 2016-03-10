@@ -1,26 +1,24 @@
-
+### 2016-3-7
 #### 构建步骤
-
-
 ```javascript
 // 开发环境
 var develop = {
-	base: 'src',
-	temp: 'src/.temp',				// html，js，css压缩合并后生成的临时目录
-	html: 'src/html',
-	js: 'src/js',
-	images: 'src/images',
-	lib: 'src/lib',
-	path: '__PATH__'
+    base: 'src',
+    temp: 'src/.temp',              // html，js，css压缩合并后生成的临时目录
+    html: 'src/html',
+    js: 'src/js',
+    images: 'src/images',
+    lib: 'src/lib',
+    path: '__PATH__'
 };
 // 线上环境
 var release = {
-	base: 'dist',
-	html: 'dist/html',
-	js: 'dist/js',
-	images: 'dist/images',
-	lib: 'dist/lib',
-	path: 'dist'
+    base: 'dist',
+    html: 'dist/html',
+    js: 'dist/js',
+    images: 'dist/images',
+    lib: 'dist/lib',
+    path: 'dist'
 };
 ```
 1、 处理html文件里的静态资源
@@ -119,19 +117,19 @@ gulp compress
 ```gulp
 gulp.task('move', function (){
 
-	gulp.src( develop.base + '/**/images/**' )
-		.pipe( gulp.dest( 'dist' ) );
+    gulp.src( develop.base + '/**/images/**' )
+        .pipe( gulp.dest( 'dist' ) );
 
-	gulp.src( develop.base + '/**/fonts/**' )
-		.pipe( gulp.dest( 'dist' ) );
+    gulp.src( develop.base + '/**/fonts/**' )
+        .pipe( gulp.dest( 'dist' ) );
 
-	// 经过压缩合并后的css，js移到对应的目录
-	gulp.src( develop.temp + '/' + develop.path + '/**' )
-		.pipe( gulp.dest( release.base ) );
+    // 经过压缩合并后的css，js移到对应的目录
+    gulp.src( develop.temp + '/' + develop.path + '/**' )
+        .pipe( gulp.dest( release.base ) );
 
-	// 经过处理后的html移到对应的目录
-	gulp.src( develop.temp + '/**/*.html' )
-		.pipe( gulp.dest( release.html ) )
+    // 经过处理后的html移到对应的目录
+    gulp.src( develop.temp + '/**/*.html' )
+        .pipe( gulp.dest( release.html ) )
 })
 ```
 ```javascript
@@ -194,18 +192,18 @@ var replace = require('gulp-replace');
 gulp.task('sass', ['src:sass', 'lib:sass'], function (){
 })
 gulp.task('src:sass', function (){
-	gulp.src( develop.base + '/scss/**/*.scss', ['!_*.scss'] )
-		.pipe( sass() )
-		// 替换掉scss里面的图片引用路径变量
-		.pipe( replace(develop.path, release.path) )
-		.pipe( gulp.dest(develop.base + '/css') );
+    gulp.src( develop.base + '/scss/**/*.scss', ['!_*.scss'] )
+        .pipe( sass() )
+        // 替换掉scss里面的图片引用路径变量
+        .pipe( replace(develop.path, release.path) )
+        .pipe( gulp.dest(develop.base + '/css') );
 })
 gulp.task('lib:sass', function (){
-	gulp.src( develop.lib + '/scss/**/*.scss', ['!_*.scss'] )
-		.pipe( sass() )
-		// 替换掉scss里面的图片引用路径变量
-		.pipe( replace(develop.path, release.path) )
-		.pipe( gulp.dest(develop.lib + '/css') );
+    gulp.src( develop.lib + '/scss/**/*.scss', ['!_*.scss'] )
+        .pipe( sass() )
+        // 替换掉scss里面的图片引用路径变量
+        .pipe( replace(develop.path, release.path) )
+        .pipe( gulp.dest(develop.lib + '/css') );
 })
 ```
 ```javascript
@@ -222,10 +220,10 @@ gulp sass
 ```gulp
 var watch = require('gulp-watch');
 gulp.task('watch:sass', function (){
-	gulp.run('sass');
-	watch('src/**/*.scss', function (e){
-		gulp.run('sass');
-	})
+    gulp.run('sass');
+    watch('src/**/*.scss', function (e){
+        gulp.run('sass');
+    })
 })
 ```
 ```javascript
@@ -240,4 +238,67 @@ gulp.run() has been deprecated. Use task dependencies or gulp.watch task trigger
 [18:43:15] Starting 'sass'...
 [18:43:15] Finished 'sass' after 2.85 μs
 [18:43:15] Finished 'watch:sass' after 21 ms
+```
+
+---
+### 2016-3-8更新
+>新增压缩image功能插件
+```gulp
+var miniImage = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');    // 压缩png格式插件
+
+// 移动资源
+gulp.task('move', function (){
+
+    gulp.src( develop.base + '/**/images/**' )
+        // 压缩image
+        .pipe( miniImage({
+            progressive: false,
+            svgoPlugins: [{removeViewBox: false}],
+            use: [pngquant()]
+        }) )
+        .pipe( gulp.dest( 'dist' ) );
+
+    gulp.src( develop.base + '/**/fonts/**' )
+        .pipe( gulp.dest( 'dist' ) );
+
+    // 经过压缩合并后的css，js移到对应的目录
+    gulp.src( develop.temp + '/' + develop.path + '/**' )
+        .pipe( gulp.dest( release.base ) );
+
+    // 经过处理后的html移到对应的目录
+    gulp.src( develop.temp + '/**/*.html' )
+        .pipe( gulp.dest( release.html ) )
+})
+```
+```javascript
+[10:21:20] gulp-imagemin: Minified 8 images (saved 6.18 kB - 60.6%)
+```
+
+>注意：var assets = useref.assets();需要加上参数
+```gulp
+var assets = useref.assets({searchPath: ['.']});      // 表示静态资源的路径是相对gulpfile.js开始的，否则会找不到资源
+```
+---
+### 2016-3-10更新
+>新增gulp-plumber插件，当用watch插件监听sass编译时，如果sass编译错误，watch插件就会自动退出，这时就会出现每次出错时都要再次运行watch，而在sass编译时引用这个插件，就会更好的出来报错，并且不会退出
+```gulp
+var plumber = require('gulp-plumber');
+gulp.task('src:sass', function (){
+    gulp.src( develop.base + '/scss/**/*.scss', ['!_*.scss'] )
+        .pipe( plumber() )
+        .pipe( sass() )
+        // 替换掉scss里面的图片引用路径变量
+        .pipe( replace(develop.path, release.path) )
+        .pipe( gulp.dest(develop.base + '/css') );
+})
+gulp.task('lib:sass', function (){
+    gulp.src( develop.lib + '/scss/**/*.scss', ['!_*.scss'] )
+        .pipe( plumber() )
+        .pipe( sass() )
+        // 替换掉scss里面的图片引用路径变量
+        .pipe( replace(develop.path, release.path) )
+        .pipe( gulp.dest(develop.lib + '/css') );
+})
+
 ```

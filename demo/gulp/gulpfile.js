@@ -7,6 +7,7 @@ var watch = require('gulp-watch');
 var jshint = require('gulp-jshint');
 var minifyCss = require('gulp-minify-css');
 var miniImage = require('gulp-imagemin');
+var pngquant = require('imagemin-pngquant');	// 压缩png格式插件
 var notify = require('gulp-notify');
 var concat = require('gulp-concat');
 var useref = require('gulp-useref');
@@ -106,6 +107,12 @@ gulp.task('clean:temp', function (){
 gulp.task('move', function (){
 
 	gulp.src( develop.base + '/**/images/**' )
+		// 压缩image
+		.pipe( miniImage({
+			progressive: false,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}) )
 		.pipe( gulp.dest( 'dist' ) );
 
 	gulp.src( develop.base + '/**/fonts/**' )
