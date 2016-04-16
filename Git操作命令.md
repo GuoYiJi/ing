@@ -23,3 +23,11 @@ index.html
 view/index.html
 view/*.html
 ```
+
+---
+2016-3-25
+### 删除缓存文件及文件夹
+```
+git rm -r --cached path 		// 删除缓存文件夹
+git rm --cached file_name_path  // 删除缓存文件
+```
